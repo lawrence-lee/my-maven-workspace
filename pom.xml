@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>my.maven.workspace</groupId>
+	<artifactId>my-maven-workspace</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0</version>
+	<name>my-maven-workspace</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<liferay.workspace.bundle.url>https://api.liferay.com/downloads/portal/7.2.10.1/liferay-dxp-tomcat-7.2.10.1-sp1-20191009103614075.tar.gz</liferay.workspace.bundle.url>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.bundle.support</artifactId>
+				<version>3.5.2</version>
+				<configuration>
+					<force>true</force>
+					<tokenFile>${user.home}/.liferay/tokenFile</tokenFile>  
+					<token>true</token>
+				</configuration> 
+				<executions>
+					<execution>
+						<id>clean</id>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<phase>clean</phase>
+					</execution>
+
+					<execution>
+						<configuration>
+							<force>true</force>
+							<tokenFile>${user.home}/.liferay/tokenFile</tokenFile>
+						</configuration>  
+						<id>init</id>
+						<goals>
+							<goal>init</goal>
+						</goals>
+						<phase>initialize</phase>
+					</execution>
+					
+					<execution>
+						<id>deploy</id>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<phase>pre-integration-test</phase>
+					</execution>
+
+					<execution>
+						<id>create-token</id>
+						<goals>
+						<goal>create-token</goal>
+						</goals>
+						<configuration>
+							<emailAddress>lawrence.lee@liferay.com</emailAddress>
+							<force>true</force>
+							<tokenFile>${user.home}/.liferay/tokenFile</tokenFile> 
+						</configuration>
+					</execution>
+
+					<!--
+					<execution>
+						<id>dist</id>
+						<goals>
+							<goal>dist</goal>
+						</goals>
+						<phase>post-integration-test</phase>
+					</execution>
+					-->
+
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>modules</module>
+		<module>themes</module>
+		<module>wars</module>
+	</modules>
+</project>
